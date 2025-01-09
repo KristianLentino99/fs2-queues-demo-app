@@ -1,0 +1,38 @@
+# Scala/SBT specific
+target/
+.bsp/
+project/target/
+project/project/
+*.class
+*.log
+
+# IDE specific (IntelliJ IDEA)
+.idea/
+.idea_modules/
+*.iml
+*.iws
+*.ipr
+
+# IDE specific (VS Code)
+.vscode/
+.metals/
+.bloop/
+metals.sbt
+.scala-build/
+
+# Mac OS specific
+.DS_Store
+
+# Local configuration
+.env
+local.conf
+
+# SBT specific
+.history
+.cache
+.lib/
+dist/*
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/ 
