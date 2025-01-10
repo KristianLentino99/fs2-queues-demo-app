@@ -36,43 +36,7 @@ object Consumer {
     })
   }
 
-  def consume[F[_]: Async](
-      client: QueueClient[F],
-      id: Int
-  ): Stream[F, Either[Throwable, String]] = {
-
-    Stream.eval(Async[F].delay(println(s"Consumer $id started"))) >>
-      client
-        .subscribe(Configuration.queueName)
-        .process[String](
-          10,
-          1.seconds,
-          client.publish(Configuration.queueName)
-        ) { (message: Message[F, String]) =>
-          for {
-            parsedPayload <- parsePayload(message.payload)
-            _ <- Async[F].delay(
-              println(
-                s"Consumer $id received message ${message.messageId.value}: $parsedPayload"
-              )
-            )
-            decision <- Async[F].delay {
-              message.metadata.get("retries") match
-                case None =>
-                  Decision.Reenqueue(Some(Map("retries" -> "1")))
-                case Some(value) if value.toInt < 3 =>
-                  Decision.Reenqueue(
-                    Some(Map("retries" -> (value.toInt + 1).toString))
-                  )
-                case _ =>
-                  Decision.Ok(message.messageId.value)
-            }
-            _ <- Async[F].delay(println(s"Consumer $id decided to ${decision}"))
-          } yield decision
-        }
-  }
-
-  def consume2[F[_]](client: QueueClient[F], id: Int)(using
+  def consume[F[_]](client: QueueClient[F], id: Int)(using
       F: Async[F],
       logger: Logger[F]
   ): Stream[F, Either[Throwable, String]] = {

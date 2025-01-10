@@ -32,7 +32,7 @@ object DemoApp extends IOApp.Simple {
         Producer.produce(client) merge
           Stream
             .emits(numberOfConsumers)
-            .map(id => Consumer.consume2[IO](client, id))
+            .map(id => Consumer.consume[IO](client, id))
             .parJoin(
               numberOfConsumers.size
             ) // allow multiple consumers to run in parallel
