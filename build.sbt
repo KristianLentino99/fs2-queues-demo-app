@@ -19,9 +19,8 @@ libraryDependencies ++= Seq(
 ).map(_ % circeVersion)
 
 libraryDependencies ++= Seq(
-  "org.typelevel" %% "log4cats-core" % "2.7.0",
-  "org.typelevel" %% "log4cats-slf4j" % "2.7.0",
-  "ch.qos.logback" % "logback-classic" % "1.4.7"
+  "ch.qos.logback" % "logback-classic" % "1.4.7",
+  "org.typelevel" %% "log4cats-slf4j" % "2.7.0"
 )
 
 libraryDependencies += "com.github.pureconfig" %% "pureconfig-core" % "0.17.6"
